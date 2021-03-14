@@ -5,21 +5,21 @@
 #include <string>
 #include <fstream>
 #include "matplotlibcpp.h"
-#include "C:\МГТУ\ТеорияИгр\NumCpp-master\include\NumCpp\Linalg.hpp"
-#include "C:\МГТУ\ТеорияИгр\NumCpp-master\include\NumCpp\NdArray.hpp"
+#include "NumCpp-master\include\NumCpp\Linalg.hpp"
+#include "NumCpp-master\include\NumCpp\NdArray.hpp"
 
 namespace plt = matplotlibcpp;
-std::vector<std::vector<double>> matrix_C = { {0.0,0.0,0.0},{0.0,0.0,0.0},{0.0,0.0,0.0} }; //матрица С
-std::vector<std::vector<double>> reverse_matrix_C = { {0.0,0.0,0.0},{0.0,0.0,0.0},{0.0,0.0,0.0} }; //обратная матрица к матрице С
-std::vector<std::vector<double>> optimal_strategy_x = { { 0.0,0.0,0.0 } }; //оптимальная стратегия х*
-std::vector<std::vector<double>> optimal_strategy_y = { { 0.0}, {0.0}, {0.0} }; //оптимальная стратегия у*
+std::vector<std::vector<double>> matrix_C = { {0.0,0.0,0.0},{0.0,0.0,0.0},{0.0,0.0,0.0} }; //Г¬Г ГІГ°ГЁГ¶Г  Г‘
+std::vector<std::vector<double>> reverse_matrix_C = { {0.0,0.0,0.0},{0.0,0.0,0.0},{0.0,0.0,0.0} }; //Г®ГЎГ°Г ГІГ­Г Гї Г¬Г ГІГ°ГЁГ¶Г  ГЄ Г¬Г ГІГ°ГЁГ¶ГҐ Г‘
+std::vector<std::vector<double>> optimal_strategy_x = { { 0.0,0.0,0.0 } }; //Г®ГЇГІГЁГ¬Г Г«ГјГ­Г Гї Г±ГІГ°Г ГІГҐГЈГЁГї Гµ*
+std::vector<std::vector<double>> optimal_strategy_y = { { 0.0}, {0.0}, {0.0} }; //Г®ГЇГІГЁГ¬Г Г«ГјГ­Г Гї Г±ГІГ°Г ГІГҐГЈГЁГї Гі*
 std::vector<double> graph_of_errors;
-double e_error = 1.0; //величина ошибки
-double cost_of_game_v = 0.0; //цена игры
+double e_error = 1.0; //ГўГҐГ«ГЁГ·ГЁГ­Г  Г®ГёГЁГЎГЄГЁ
+double cost_of_game_v = 0.0; //Г¶ГҐГ­Г  ГЁГЈГ°Г»
 
-double det_matrix_C() //вычисление определителя матрицы 3Х3
+double det_matrix_C() //ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГҐ Г®ГЇГ°ГҐГ¤ГҐГ«ГЁГІГҐГ«Гї Г¬Г ГІГ°ГЁГ¶Г» 3Г•3
 {
-    double det = 0.0; //определитель 
+    double det = 0.0; //Г®ГЇГ°ГҐГ¤ГҐГ«ГЁГІГҐГ«Гј 
     det += matrix_C[0][0] * matrix_C[1][1] * matrix_C[2][2];
     det += matrix_C[0][1] * matrix_C[1][2] * matrix_C[2][0];
     det += matrix_C[0][2] * matrix_C[1][0] * matrix_C[2][1];
@@ -29,7 +29,7 @@ double det_matrix_C() //вычисление определителя матрицы 3Х3
     return det;
 }
 
-void alg_dopolnenie() //вычисление алгебраических дополнений
+void alg_dopolnenie() //ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГҐ Г Г«ГЈГҐГЎГ°Г ГЁГ·ГҐГ±ГЄГЁГµ Г¤Г®ГЇГ®Г«Г­ГҐГ­ГЁГ©
 {
     reverse_matrix_C[0][0] = matrix_C[1][1] * matrix_C[2][2] - matrix_C[2][1] * matrix_C[1][2];
     reverse_matrix_C[0][1] = -(matrix_C[1][0] * matrix_C[2][2] - matrix_C[2][0] * matrix_C[1][2]);
@@ -42,7 +42,7 @@ void alg_dopolnenie() //вычисление алгебраических дополнений
     reverse_matrix_C[2][2] = matrix_C[0][0] * matrix_C[1][1] - matrix_C[1][0] * matrix_C[0][1];
 }
 
-void transport_matrix_of_alg_dop() //транспортирование матрицы, составленной из алгебраических дополнений 
+void transport_matrix_of_alg_dop() //ГІГ°Г Г­Г±ГЇГ®Г°ГІГЁГ°Г®ГўГ Г­ГЁГҐ Г¬Г ГІГ°ГЁГ¶Г», Г±Г®Г±ГІГ ГўГ«ГҐГ­Г­Г®Г© ГЁГ§ Г Г«ГЈГҐГЎГ°Г ГЁГ·ГҐГ±ГЄГЁГµ Г¤Г®ГЇГ®Г«Г­ГҐГ­ГЁГ© 
 {
 
     double temp = 0.0;
@@ -66,18 +66,18 @@ void transport_matrix_of_alg_dop() //транспортирование матрицы, составленной из 
 }
 
 
-void enter_values_of_matrix_C(int argc, char *argv[]) //ввод матрицы и проверка на ввод
+void enter_values_of_matrix_C(int argc, char *argv[]) //ГўГўГ®Г¤ Г¬Г ГІГ°ГЁГ¶Г» ГЁ ГЇГ°Г®ГўГҐГ°ГЄГ  Г­Г  ГўГўГ®Г¤
 {
-    std::string letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUWXYZабвгдеёжзийклмнопрстуфзцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+    std::string letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUWXYZГ ГЎГўГЈГ¤ГҐВёГ¦Г§ГЁГ©ГЄГ«Г¬Г­Г®ГЇГ°Г±ГІГіГґГ§Г¶Г·ГёГ№ГєГ»ГјГЅГѕГїГЂГЃГ‚ГѓГ„Г…ВЁГ†Г‡Г€Г‰ГЉГ‹ГЊГЌГЋГЏГђГ‘Г’Г“Г”Г•Г–Г—ГГ™ГљГ›ГњГќГћГџ";
     size_t count_argv = 1;
     if (argc <= 9)
     {
-        std::cout << "Не все числа введены" << std::endl;
+        std::cout << "ГЌГҐ ГўГ±ГҐ Г·ГЁГ±Г«Г  ГўГўГҐГ¤ГҐГ­Г»" << std::endl;
         exit(1);
     }
     if (argc > 10)
     {
-        std::cout << "Слишком много данных. Учитываются только  первые 9 чисел" << std::endl;
+        std::cout << "Г‘Г«ГЁГёГЄГ®Г¬ Г¬Г­Г®ГЈГ® Г¤Г Г­Г­Г»Гµ. Г“Г·ГЁГІГ»ГўГ ГѕГІГ±Гї ГІГ®Г«ГјГЄГ®  ГЇГҐГ°ГўГ»ГҐ 9 Г·ГЁГ±ГҐГ«" << std::endl;
     }
     std::string str_argv = "";
     for (size_t index = 1; index < argc; ++index)
@@ -91,7 +91,7 @@ void enter_values_of_matrix_C(int argc, char *argv[]) //ввод матрицы и проверка 
     }
     if (str_argv.find_first_of(letters) != std::string::npos)
     {
-        std::cout << "Введена буква" << std::endl;
+        std::cout << "Г‚ГўГҐГ¤ГҐГ­Г  ГЎГіГЄГўГ " << std::endl;
         exit(1);
     }
     for (size_t index_row = 0; index_row < 3; ++index_row)
@@ -111,11 +111,11 @@ void enter_values_of_matrix_C(int argc, char *argv[]) //ввод матрицы и проверка 
 }
 
 
-void analitic_method() //расчёт аналитическим методои
+void analitic_method() //Г°Г Г±Г·ВёГІ Г Г­Г Г«ГЁГІГЁГ·ГҐГ±ГЄГЁГ¬ Г¬ГҐГІГ®Г¤Г®ГЁ
 {
-    //расчёт оптимальной стартегии х*= (u*C^(-1))/(u*C^(-1)*u^T), где u=(1,1,1), u^T-транспонированный вектор u
-    // temp - значение u*C^(-1)*u^T
-    //расчёт оптимальной стартегии y*= (C^(-1)*u^T)/(u*C^(-1)*u^T), где u=(1,1,1), u^T-транспонированный вектор u
+    //Г°Г Г±Г·ВёГІ Г®ГЇГІГЁГ¬Г Г«ГјГ­Г®Г© Г±ГІГ Г°ГІГҐГЈГЁГЁ Гµ*= (u*C^(-1))/(u*C^(-1)*u^T), ГЈГ¤ГҐ u=(1,1,1), u^T-ГІГ°Г Г­Г±ГЇГ®Г­ГЁГ°Г®ГўГ Г­Г­Г»Г© ГўГҐГЄГІГ®Г° u
+    // temp - Г§Г­Г Г·ГҐГ­ГЁГҐ u*C^(-1)*u^T
+    //Г°Г Г±Г·ВёГІ Г®ГЇГІГЁГ¬Г Г«ГјГ­Г®Г© Г±ГІГ Г°ГІГҐГЈГЁГЁ y*= (C^(-1)*u^T)/(u*C^(-1)*u^T), ГЈГ¤ГҐ u=(1,1,1), u^T-ГІГ°Г Г­Г±ГЇГ®Г­ГЁГ°Г®ГўГ Г­Г­Г»Г© ГўГҐГЄГІГ®Г° u
     //v=1/(u*C^(-1)*u^T)
 
     double temp = 0.0;
@@ -126,7 +126,7 @@ void analitic_method() //расчёт аналитическим методои
     temp = optimal_strategy_x[0][0] + optimal_strategy_x[0][1] + optimal_strategy_x[0][2];//u*C^(-1)*u^T
     for (size_t index_column = 0; index_column < 3; ++index_column)
     {
-        optimal_strategy_x[0][index_column] *= 1.0 / temp; //вектор x*
+        optimal_strategy_x[0][index_column] *= 1.0 / temp; //ГўГҐГЄГІГ®Г° x*
     }
     //C^(-1)*u^T
     optimal_strategy_y[0][0] = reverse_matrix_C[0][0] + reverse_matrix_C[0][1] + reverse_matrix_C[0][2];
@@ -134,27 +134,27 @@ void analitic_method() //расчёт аналитическим методои
     optimal_strategy_y[2][0] = reverse_matrix_C[2][0] + reverse_matrix_C[2][1] + reverse_matrix_C[2][2];
     for (size_t index_row = 0; index_row < 3; ++index_row)
     {
-        optimal_strategy_y[index_row][0] *= 1.0 / temp; //вектор y*
+        optimal_strategy_y[index_row][0] *= 1.0 / temp; //ГўГҐГЄГІГ®Г° y*
     }
-    //цена игры
+    //Г¶ГҐГ­Г  ГЁГЈГ°Г»
     cost_of_game_v = 1.0 / temp;
 }
 
-void braun_robin() //алгоритм Брауна-Робинсона
+void braun_robin() //Г Г«ГЈГ®Г°ГЁГІГ¬ ГЃГ°Г ГіГ­Г -ГђГ®ГЎГЁГ­Г±Г®Г­Г 
 {
-    std::fstream result_file("C:\\МГТУ\\ТеорияИгр\\Lab1-Braun-Robins\\Lab1-Braun-Robins\\table.csv", std::ios_base::out | std::ios_base::trunc);
+    std::fstream result_file("C:\\ГЊГѓГ’Г“\\Г’ГҐГ®Г°ГЁГїГ€ГЈГ°\\Lab1-Braun-Robins\\Lab1-Braun-Robins\\table.csv", std::ios_base::out | std::ios_base::trunc);
     
-    std::vector<int> wins_of_A = { 0,0,0 }; //выиграш игрока А
-    std::vector<int> loses_of_B = { 0,0,0 };//проигрыш игрока В
+    std::vector<int> wins_of_A = { 0,0,0 }; //ГўГ»ГЁГЈГ°Г Гё ГЁГЈГ°Г®ГЄГ  ГЂ
+    std::vector<int> loses_of_B = { 0,0,0 };//ГЇГ°Г®ГЁГЈГ°Г»Гё ГЁГЈГ°Г®ГЄГ  Г‚
 
-    std::vector<double> high_cost_of_game; // среднии значения верхней цены игры
+    std::vector<double> high_cost_of_game; // Г±Г°ГҐГ¤Г­ГЁГЁ Г§Г­Г Г·ГҐГ­ГЁГї ГўГҐГ°ГµГ­ГҐГ© Г¶ГҐГ­Г» ГЁГЈГ°Г»
     std::vector<double>::iterator iterator_of_high_cost_of_game;
-    std::vector<double> low_cost_of_game; // среднии значения нижней цены игры
+    std::vector<double> low_cost_of_game; // Г±Г°ГҐГ¤Г­ГЁГЁ Г§Г­Г Г·ГҐГ­ГЁГї Г­ГЁГ¦Г­ГҐГ© Г¶ГҐГ­Г» ГЁГЈГ°Г»
     std::vector<double>::iterator iterator_of_low_cost_of_game;
-    double count = 1.0; //количество шагов 
-    int pos_min_element_of_high_cost_of_game = 0; //позиция минимального элемента в массиве средних значений верхней цены игры
-    int pos_max_element_of_low_cost_of_game = 0; //позиция максимального элемента в массиве средних значений верхней цены игры
-    //количество использованных стратегий игроками А и В
+    double count = 1.0; //ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГёГ ГЈГ®Гў 
+    int pos_min_element_of_high_cost_of_game = 0; //ГЇГ®Г§ГЁГ¶ГЁГї Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г®ГЈГ® ГЅГ«ГҐГ¬ГҐГ­ГІГ  Гў Г¬Г Г±Г±ГЁГўГҐ Г±Г°ГҐГ¤Г­ГЁГµ Г§Г­Г Г·ГҐГ­ГЁГ© ГўГҐГ°ГµГ­ГҐГ© Г¶ГҐГ­Г» ГЁГЈГ°Г»
+    int pos_max_element_of_low_cost_of_game = 0; //ГЇГ®Г§ГЁГ¶ГЁГї Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г®ГЈГ® ГЅГ«ГҐГ¬ГҐГ­ГІГ  Гў Г¬Г Г±Г±ГЁГўГҐ Г±Г°ГҐГ¤Г­ГЁГµ Г§Г­Г Г·ГҐГ­ГЁГ© ГўГҐГ°ГµГ­ГҐГ© Г¶ГҐГ­Г» ГЁГЈГ°Г»
+    //ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ Г­Г­Г»Гµ Г±ГІГ°Г ГІГҐГЈГЁГ© ГЁГЈГ°Г®ГЄГ Г¬ГЁ ГЂ ГЁ Г‚
     int count_of_x1 = 1;
     int count_of_x2 = 0;
     int count_of_x3 = 0;
@@ -162,33 +162,33 @@ void braun_robin() //алгоритм Брауна-Робинсона
     int count_of_y2 = 0;
     int count_of_y3 = 0;
     
-    //выбор стратегии х1 игроком А на шаге 1
+    //ГўГ»ГЎГ®Г° Г±ГІГ°Г ГІГҐГЈГЁГЁ Гµ1 ГЁГЈГ°Г®ГЄГ®Г¬ ГЂ Г­Г  ГёГ ГЈГҐ 1
     wins_of_A[0] = matrix_C[0][0];
     wins_of_A[1] = matrix_C[1][0];
     wins_of_A[2] = matrix_C[2][0];
-    //выбор стратегии у1 игроком В на шаге 1
+    //ГўГ»ГЎГ®Г° Г±ГІГ°Г ГІГҐГЈГЁГЁ Гі1 ГЁГЈГ°Г®ГЄГ®Г¬ Г‚ Г­Г  ГёГ ГЈГҐ 1
     loses_of_B[0] = matrix_C[0][0];
     loses_of_B[1] = matrix_C[0][1];
     loses_of_B[2] = matrix_C[0][2];
 
-    //нахождение максимального выиграша у игрока А
+    //Г­Г ГµГ®Г¦Г¤ГҐГ­ГЁГҐ Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г®ГЈГ® ГўГ»ГЁГЈГ°Г ГёГ  Гі ГЁГЈГ°Г®ГЄГ  ГЂ
     std::vector<int>::iterator max_result_of_A;
     max_result_of_A = std::max_element(wins_of_A.begin(), wins_of_A.end());
     int pos_max_win_of_A = std::distance(wins_of_A.begin(), max_result_of_A);
-    //нахождение минимального проигрыша у игрока В
+    //Г­Г ГµГ®Г¦Г¤ГҐГ­ГЁГҐ Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г®ГЈГ® ГЇГ°Г®ГЁГЈГ°Г»ГёГ  Гі ГЁГЈГ°Г®ГЄГ  Г‚
     std::vector<int>::iterator min_result_of_B;
     min_result_of_B = std::min_element(loses_of_B.begin(), loses_of_B.end());
     int pos_min_lose_of_B = std::distance(loses_of_B.begin(), min_result_of_B);
-    //подсчёт среднего значения верхней цены игры 
+    //ГЇГ®Г¤Г±Г·ВёГІ Г±Г°ГҐГ¤Г­ГҐГЈГ® Г§Г­Г Г·ГҐГ­ГЁГї ГўГҐГ°ГµГ­ГҐГ© Г¶ГҐГ­Г» ГЁГЈГ°Г» 
     high_cost_of_game.push_back(wins_of_A.at(pos_max_win_of_A) * 1.0 / count);
-    //подсчёт среднего значения нижней цены игры
+    //ГЇГ®Г¤Г±Г·ВёГІ Г±Г°ГҐГ¤Г­ГҐГЈГ® Г§Г­Г Г·ГҐГ­ГЁГї Г­ГЁГ¦Г­ГҐГ© Г¶ГҐГ­Г» ГЁГЈГ°Г»
     low_cost_of_game.push_back(loses_of_B.at(pos_min_lose_of_B) * 1.0 / count);
-    //вычисление значения ошибки
+    //ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГҐ Г§Г­Г Г·ГҐГ­ГЁГї Г®ГёГЁГЎГЄГЁ
     e_error = high_cost_of_game.at(0) - low_cost_of_game.at(0);
     graph_of_errors.push_back(e_error);
 
     if (e_error > 0.1);
-    result_file << "k" << ";" << "выбор игрока" << ";" << "выигрыш игрока А" << ";"<<";" <<";"<< "проигрыш игрока В" << ";" <<";"<<";"<< "1 / k * v[k] - верх" <<";"<< "1/k*v[k]-ниж|" << ";" << "e-погрешность" << "\n";
+    result_file << "k" << ";" << "ГўГ»ГЎГ®Г° ГЁГЈГ°Г®ГЄГ " << ";" << "ГўГ»ГЁГЈГ°Г»Гё ГЁГЈГ°Г®ГЄГ  ГЂ" << ";"<<";" <<";"<< "ГЇГ°Г®ГЁГЈГ°Г»Гё ГЁГЈГ°Г®ГЄГ  Г‚" << ";" <<";"<<";"<< "1 / k * v[k] - ГўГҐГ°Гµ" <<";"<< "1/k*v[k]-Г­ГЁГ¦|" << ";" << "e-ГЇГ®ГЈГ°ГҐГёГ­Г®Г±ГІГј" << "\n";
     result_file << " " << ";" << "A|B" << ";" << "x1" << ";" << "x2" << ";" << "x3" << ";" << "y1" << ";" << "y2" << ";" << "y3" << "\n";
 
     do
@@ -200,7 +200,7 @@ void braun_robin() //алгоритм Брауна-Робинсона
         }
         count++;
         result_file << count << ";";
-        if (0 == pos_max_win_of_A) //если максимальное значение будет при выборе стратегии х1
+        if (0 == pos_max_win_of_A) //ГҐГ±Г«ГЁ Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ ГЎГіГ¤ГҐГІ ГЇГ°ГЁ ГўГ»ГЎГ®Г°ГҐ Г±ГІГ°Г ГІГҐГЈГЁГЁ Гµ1
         {
             loses_of_B[0] += matrix_C[0][0];
             loses_of_B[1] += matrix_C[0][1];
@@ -208,7 +208,7 @@ void braun_robin() //алгоритм Брауна-Робинсона
             count_of_x1++;
             result_file << "x1 ";
         }
-        else if (1 == pos_max_win_of_A)//если максимальное значение будет при выборе стратегии х2
+        else if (1 == pos_max_win_of_A)//ГҐГ±Г«ГЁ Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ ГЎГіГ¤ГҐГІ ГЇГ°ГЁ ГўГ»ГЎГ®Г°ГҐ Г±ГІГ°Г ГІГҐГЈГЁГЁ Гµ2
         {
             loses_of_B[0] += matrix_C[1][0];
             loses_of_B[1] += matrix_C[1][1];
@@ -216,7 +216,7 @@ void braun_robin() //алгоритм Брауна-Робинсона
             count_of_x2++;
             result_file << "x2 ";
         }
-        else if (2 == pos_max_win_of_A)//если максимальное значение будет при выборе стратегии х3
+        else if (2 == pos_max_win_of_A)//ГҐГ±Г«ГЁ Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ ГЎГіГ¤ГҐГІ ГЇГ°ГЁ ГўГ»ГЎГ®Г°ГҐ Г±ГІГ°Г ГІГҐГЈГЁГЁ Гµ3
         {
             loses_of_B[0] += matrix_C[2][0];
             loses_of_B[1] += matrix_C[2][1];
@@ -225,7 +225,7 @@ void braun_robin() //алгоритм Брауна-Робинсона
             result_file << "x3 ";
         }
 
-        if (0 == pos_min_lose_of_B)//если минимальный проигрыш будет при выборе стратегии у1
+        if (0 == pos_min_lose_of_B)//ГҐГ±Г«ГЁ Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г»Г© ГЇГ°Г®ГЁГЈГ°Г»Гё ГЎГіГ¤ГҐГІ ГЇГ°ГЁ ГўГ»ГЎГ®Г°ГҐ Г±ГІГ°Г ГІГҐГЈГЁГЁ Гі1
         {
             wins_of_A[0] += matrix_C[0][0];
             wins_of_A[1] += matrix_C[1][0];
@@ -233,7 +233,7 @@ void braun_robin() //алгоритм Брауна-Робинсона
             count_of_y1++;
             result_file << "y1" << ";";
         }
-        else if (1 == pos_min_lose_of_B)//если минимальный проигрыш будет при выборе стратегии у2
+        else if (1 == pos_min_lose_of_B)//ГҐГ±Г«ГЁ Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г»Г© ГЇГ°Г®ГЁГЈГ°Г»Гё ГЎГіГ¤ГҐГІ ГЇГ°ГЁ ГўГ»ГЎГ®Г°ГҐ Г±ГІГ°Г ГІГҐГЈГЁГЁ Гі2
         {
             wins_of_A[0] += matrix_C[0][1];
             wins_of_A[1] += matrix_C[1][1];
@@ -241,7 +241,7 @@ void braun_robin() //алгоритм Брауна-Робинсона
             count_of_y2++;
             result_file << "y2" << ";";
         }
-        else if (2 == pos_min_lose_of_B)//если минимальный проигрыш будет при выборе стратегии у3
+        else if (2 == pos_min_lose_of_B)//ГҐГ±Г«ГЁ Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г»Г© ГЇГ°Г®ГЁГЈГ°Г»Гё ГЎГіГ¤ГҐГІ ГЇГ°ГЁ ГўГ»ГЎГ®Г°ГҐ Г±ГІГ°Г ГІГҐГЈГЁГЁ Гі3
         {
             wins_of_A[0] += matrix_C[0][2];
             wins_of_A[1] += matrix_C[1][2];
@@ -251,32 +251,32 @@ void braun_robin() //алгоритм Брауна-Робинсона
         }
       
         result_file <<wins_of_A[0] << ";" << wins_of_A[1] << ";" << wins_of_A[2] << ";" << loses_of_B[0] << ";" << loses_of_B[1] << ";" << loses_of_B[2] << ";" ;
-        //нахождение максимального выиграша у игрока А
+        //Г­Г ГµГ®Г¦Г¤ГҐГ­ГЁГҐ Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г®ГЈГ® ГўГ»ГЁГЈГ°Г ГёГ  Гі ГЁГЈГ°Г®ГЄГ  ГЂ
         max_result_of_A = std::max_element(wins_of_A.begin(), wins_of_A.end());
 
         pos_max_win_of_A = std::distance(wins_of_A.begin(), max_result_of_A);
-        //нахождение минимального проигрыша у игрока В
+        //Г­Г ГµГ®Г¦Г¤ГҐГ­ГЁГҐ Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г®ГЈГ® ГЇГ°Г®ГЁГЈГ°Г»ГёГ  Гі ГЁГЈГ°Г®ГЄГ  Г‚
         min_result_of_B = std::min_element(loses_of_B.begin(), loses_of_B.end());
 
         pos_min_lose_of_B = std::distance(loses_of_B.begin(), min_result_of_B);
-          //подсчёт среднего значения верхней цены игры 
+          //ГЇГ®Г¤Г±Г·ВёГІ Г±Г°ГҐГ¤Г­ГҐГЈГ® Г§Г­Г Г·ГҐГ­ГЁГї ГўГҐГ°ГµГ­ГҐГ© Г¶ГҐГ­Г» ГЁГЈГ°Г» 
         high_cost_of_game.push_back(wins_of_A.at(pos_max_win_of_A) * 1.0 / count);
-        //подсчёт среднего значения нижней цены игры
+        //ГЇГ®Г¤Г±Г·ВёГІ Г±Г°ГҐГ¤Г­ГҐГЈГ® Г§Г­Г Г·ГҐГ­ГЁГї Г­ГЁГ¦Г­ГҐГ© Г¶ГҐГ­Г» ГЁГЈГ°Г»
         low_cost_of_game.push_back(loses_of_B.at(pos_min_lose_of_B) * 1.0 / count);
-        //поиск минимального элемента среди значений верхней цены игры
+        //ГЇГ®ГЁГ±ГЄ Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г®ГЈГ® ГЅГ«ГҐГ¬ГҐГ­ГІГ  Г±Г°ГҐГ¤ГЁ Г§Г­Г Г·ГҐГ­ГЁГ© ГўГҐГ°ГµГ­ГҐГ© Г¶ГҐГ­Г» ГЁГЈГ°Г»
         iterator_of_high_cost_of_game = std::min_element(high_cost_of_game.begin(), high_cost_of_game.end());
         pos_min_element_of_high_cost_of_game = std::distance(high_cost_of_game.begin(), iterator_of_high_cost_of_game);
-        //поиск максимального элемента среди значений верхней цены игры
+        //ГЇГ®ГЁГ±ГЄ Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г®ГЈГ® ГЅГ«ГҐГ¬ГҐГ­ГІГ  Г±Г°ГҐГ¤ГЁ Г§Г­Г Г·ГҐГ­ГЁГ© ГўГҐГ°ГµГ­ГҐГ© Г¶ГҐГ­Г» ГЁГЈГ°Г»
         iterator_of_low_cost_of_game = std::max_element(low_cost_of_game.begin(), low_cost_of_game.end());
         pos_max_element_of_low_cost_of_game = std::distance(low_cost_of_game.begin(), iterator_of_low_cost_of_game);
 
-        //вычисление величины ошибки
+        //ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГҐ ГўГҐГ«ГЁГ·ГЁГ­Г» Г®ГёГЁГЎГЄГЁ
         e_error = high_cost_of_game.at(pos_min_element_of_high_cost_of_game) - low_cost_of_game.at(pos_max_element_of_low_cost_of_game);
         result_file <<  floor(high_cost_of_game.back() * 100) / 100 << ";" << floor(low_cost_of_game.back() * 100) / 100 << ";" << floor(e_error * 100) / 100 << std::endl;
         graph_of_errors.push_back(e_error);
 
-    } while (e_error > 0.1); //если оишбка меньше 0.1, то останавливаем цикл
-    //вывод результатов
+    } while (e_error > 0.1); //ГҐГ±Г«ГЁ Г®ГЁГёГЎГЄГ  Г¬ГҐГ­ГјГёГҐ 0.1, ГІГ® Г®Г±ГІГ Г­Г ГўГ«ГЁГўГ ГҐГ¬ Г¶ГЁГЄГ«
+    //ГўГ»ГўГ®Г¤ Г°ГҐГ§ГіГ«ГјГІГ ГІГ®Гў
     std::vector<double>::iterator max_result_of_cost;
     max_result_of_cost = std::max_element(high_cost_of_game.begin(), high_cost_of_game.end());
     int pos_max_cost_of_game = std::distance(high_cost_of_game.begin(), max_result_of_cost);
@@ -287,35 +287,35 @@ void braun_robin() //алгоритм Брауна-Робинсона
     std::cout << *std::min_element(high_cost_of_game.begin(), high_cost_of_game.end()) << " " << *std::max_element(low_cost_of_game.begin(), low_cost_of_game.end()) << std::endl;
     cost_of_game_v = high_cost_of_game.at(pos_max_cost_of_game) - low_cost_of_game.at(pos_min_cost_of_game);
 
-    std::cout << "Значение ошибки и количество шагов" << std::endl;
+    std::cout << "Г‡Г­Г Г·ГҐГ­ГЁГҐ Г®ГёГЁГЎГЄГЁ ГЁ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГёГ ГЈГ®Гў" << std::endl;
     std::cout << "e=" << e_error << std::endl;
     std::cout << "k=" << count << std::endl;
-    std::cout << "Вывод приближенных значений смешанных стратегий" << std::endl;
+    std::cout << "Г‚Г»ГўГ®Г¤ ГЇГ°ГЁГЎГ«ГЁГ¦ГҐГ­Г­Г»Гµ Г§Г­Г Г·ГҐГ­ГЁГ© Г±Г¬ГҐГёГ Г­Г­Г»Гµ Г±ГІГ°Г ГІГҐГЈГЁГ©" << std::endl;
     std::cout << "x*[" << count << "]=(" <<count_of_x1<<"/"<<count<<"="<< double(count_of_x1 / count) << "," << count_of_x2 << "/" << count << "=" << double(count_of_x2 / count) << "," << count_of_x3 << "/" << count << "=" << double(count_of_x3 / count) << ")" << std::endl;
     std::cout << "y*[" << count << "]=(" << count_of_y1 << "/" << count << "=" << double(count_of_y1 / count) << "," << count_of_y2 << "/" << count << "=" << double(count_of_y2 / count) << "," << count_of_y3 << "/" << count << "=" << double(count_of_y3 / count) << ")" << std::endl;
     std::cout << "v=" << cost_of_game_v << std::endl;
     result_file.close();
 }
 
-void print_analitic_solve() //печать аналитического рещения
+void print_analitic_solve() //ГЇГҐГ·Г ГІГј Г Г­Г Г«ГЁГІГЁГ·ГҐГ±ГЄГ®ГЈГ® Г°ГҐГ№ГҐГ­ГЁГї
 {
     std::cout << "x*=(";
     for (size_t index_column = 0; index_column < 3; ++index_column)
     {
-        std::cout << optimal_strategy_x[0][index_column] << " ";  //вектор x*
+        std::cout << optimal_strategy_x[0][index_column] << " ";  //ГўГҐГЄГІГ®Г° x*
     }
     std::cout << ")";
     std::cout << std::endl;
     std::cout << "y*=(";
     for (size_t index_row = 0; index_row < 3; ++index_row)
     {
-        std::cout << optimal_strategy_y[index_row][0] << " "; //вектор y*
+        std::cout << optimal_strategy_y[index_row][0] << " "; //ГўГҐГЄГІГ®Г° y*
     }
     std::cout << ")";
     std::cout << std::endl;
     std::cout << "v=" << cost_of_game_v << std::endl;
   
-    plt::plot(graph_of_errors);//построение графика
+    plt::plot(graph_of_errors);//ГЇГ®Г±ГІГ°Г®ГҐГ­ГЁГҐ ГЈГ°Г ГґГЁГЄГ 
     plt::xlabel("Counts");
     plt::ylabel("e-error");
     plt::show();
