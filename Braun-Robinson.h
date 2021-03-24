@@ -285,7 +285,7 @@ void braun_robin() //àëãîðèòì Áðàóíà-Ðîáèíñîíà
     min_result_of_cost = std::min_element(low_cost_of_game.begin(), low_cost_of_game.end());
     int pos_min_cost_of_game = std::distance(low_cost_of_game.begin(), min_result_of_cost);
     std::cout << *std::min_element(high_cost_of_game.begin(), high_cost_of_game.end()) << " " << *std::max_element(low_cost_of_game.begin(), low_cost_of_game.end()) << std::endl;
-    cost_of_game_v = high_cost_of_game.at(pos_max_cost_of_game) - low_cost_of_game.at(pos_min_cost_of_game);
+   // cost_of_game_v = high_cost_of_game.at(pos_max_cost_of_game) - low_cost_of_game.at(pos_min_cost_of_game);
 
     std::cout << "Çíà÷åíèå îøèáêè è êîëè÷åñòâî øàãîâ" << std::endl;
     std::cout << "e=" << e_error << std::endl;
@@ -293,7 +293,7 @@ void braun_robin() //àëãîðèòì Áðàóíà-Ðîáèíñîíà
     std::cout << "Âûâîä ïðèáëèæåííûõ çíà÷åíèé ñìåøàííûõ ñòðàòåãèé" << std::endl;
     std::cout << "x*[" << count << "]=(" <<count_of_x1<<"/"<<count<<"="<< double(count_of_x1 / count) << "," << count_of_x2 << "/" << count << "=" << double(count_of_x2 / count) << "," << count_of_x3 << "/" << count << "=" << double(count_of_x3 / count) << ")" << std::endl;
     std::cout << "y*[" << count << "]=(" << count_of_y1 << "/" << count << "=" << double(count_of_y1 / count) << "," << count_of_y2 << "/" << count << "=" << double(count_of_y2 / count) << "," << count_of_y3 << "/" << count << "=" << double(count_of_y3 / count) << ")" << std::endl;
-    std::cout << "v=" << cost_of_game_v << std::endl;
+  //  std::cout << "v=" << cost_of_game_v << std::endl;
     result_file.close();
 }
 
